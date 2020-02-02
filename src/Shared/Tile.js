@@ -22,5 +22,5 @@ export const DeletableTile = styled(Tile)`
 
 export const DisabledTile = styled(Tile)`
     pointer-events:none;
-    opacity:0.4;
+    opacity:0.5;
 `
