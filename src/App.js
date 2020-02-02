@@ -11,7 +11,7 @@ import Content from './Shared/Content';
 function App() {
   return (
       <AppLayout>
-        <AppProvider>
+        <AppProvider> 
           <AppBar />
           <Content>
             <Settings />
