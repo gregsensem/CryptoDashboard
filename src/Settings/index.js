@@ -2,7 +2,8 @@ import React from 'react'
 import WelcomeMessage from './welcomeMessage';
 import ConfirmButton from './confirmbutton';
 import Page from '../Shared/Page';
-import CoinGrid, { CoinGridStyled } from './CoinGrid'
+import CoinGrid from './CoinGrid'
+import Search from './Search';
 
 export default function(){
     return (
@@ -10,6 +11,7 @@ export default function(){
                 <WelcomeMessage />
                 <CoinGrid topSection />
                 <ConfirmButton />
+                <Search />
                 <CoinGrid />
         </Page>
     )

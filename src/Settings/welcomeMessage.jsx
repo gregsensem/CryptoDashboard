@@ -1,6 +1,5 @@
 import React from 'react'
 import { AppContext } from '../AppProvider';
-import { CenterDiv } from './confirmbutton';
 
 const WelcomeMessage = () => {
     return ( 

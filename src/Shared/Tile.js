@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {sutleBoxShadow,lightBlueBackground,redBoxShadow,greenBoxShadow, subtleBoxShadow} from './styles';
+import {lightBlueBackground,redBoxShadow,greenBoxShadow, subtleBoxShadow} from './styles';
 
 export const Tile = styled.div`
     ${subtleBoxShadow}
