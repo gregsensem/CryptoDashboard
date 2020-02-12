@@ -1,8 +1,9 @@
 import React from 'react';
 import styled, {css} from 'styled-components';
 import {SelectableTile} from '../Shared/Tile';
-import { fontSize3,fontSizeBig } from '../Shared/styles';
+import { fontSize3, fontSizeBig, greenBoxShadow } from '../Shared/styles';
 import {CoinHeaderGridStyled} from '../Settings/CoinHeaderGrid';
+import { AppContext } from '../AppProvider';
 
 const numberFormat = number =>{
     return +(number + '').slice(0,7);
@@ -14,7 +15,11 @@ const PriceTileStyled = styled(SelectableTile)`
         grid-gap:0.25rem;
         grid-template-columns: repeat(3,1fr);
         ${fontSize3}
-    `}  
+    `}
+    ${props => props.currentFavorite && css`
+        ${greenBoxShadow}
+    `
+    }  
 `
 const JustifyRight = styled.div`
     justify-self:right;
@@ -34,15 +39,15 @@ const ChangePct = styled.div`
 const TickerPrice = styled.div`
     ${fontSizeBig}
 `
-function PriceTile({sym, data}){
+function PriceTile({sym, data, currentFavorite, setCurrentFavorite}){
     return(   
-        <PriceTileStyled>
+        <PriceTileStyled onClick ={setCurrentFavorite} currentFavorite={currentFavorite}>
             <CoinHeaderGridStyled>
                 <div>{sym}</div>
                 <JustifyRight>
                     <ChangePct zero={data.CHANGEPCT24HOUR ==0} red={data.CHANGEPCT24HOUR <0}>
                         {numberFormat(data.CHANGEPCT24HOUR)}
-                    </ChangePct>
+                     </ChangePct>
                 </JustifyRight>
             </CoinHeaderGridStyled>
             <TickerPrice>
@@ -52,9 +57,9 @@ function PriceTile({sym, data}){
     )
 }
 
-function PriceTileCompact({sym, data}){
+function PriceTileCompact({sym, data, currentFavorite, setCurrentFavorite}){
     return(   
-        <PriceTileStyled compact>
+        <PriceTileStyled onClick={setCurrentFavorite} compact currentFavorite={currentFavorite}>
             <div>{sym}</div>
             <ChangePct zero={data.CHANGEPCT24HOUR ==0} red={data.CHANGEPCT24HOUR <0}>
                 {numberFormat(data.CHANGEPCT24HOUR)}
@@ -70,5 +75,15 @@ export default function({price, index}){
     let sym = Object.keys(price)[0];
     let data = price[sym]['USD'];
     let TileClass = index < 5 ? PriceTile : PriceTileCompact;
-    return <TileClass compact={index>=5} sym={sym} data={data} />
+    return (
+        <AppContext.Consumer>
+        {({currentFavorite,setCurrentFavorite}) => 
+            <TileClass 
+                currentFavorite={currentFavorite===sym} 
+                setCurrentFavorite={()=>setCurrentFavorite(sym)}
+                compact={index>=5} 
+                sym={sym} 
+                data={data} />}
+        </AppContext.Consumer>
+)
 }
