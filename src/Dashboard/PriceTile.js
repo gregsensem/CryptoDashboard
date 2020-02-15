@@ -45,8 +45,8 @@ function PriceTile({sym, data, currentFavorite, setCurrentFavorite}){
             <CoinHeaderGridStyled>
                 <div>{sym}</div>
                 <JustifyRight>
-                    <ChangePct zero={data.CHANGEPCT24HOUR ==0} red={data.CHANGEPCT24HOUR <0}>
-                        {numberFormat(data.CHANGEPCT24HOUR)}
+                    <ChangePct zero={data.CHANGEPCT24HOUR ===0} red={data.CHANGEPCT24HOUR <0}>
+                        {numberFormat(data.CHANGEPCT24HOUR)}%
                      </ChangePct>
                 </JustifyRight>
             </CoinHeaderGridStyled>
@@ -61,8 +61,8 @@ function PriceTileCompact({sym, data, currentFavorite, setCurrentFavorite}){
     return(   
         <PriceTileStyled onClick={setCurrentFavorite} compact currentFavorite={currentFavorite}>
             <div>{sym}</div>
-            <ChangePct zero={data.CHANGEPCT24HOUR ==0} red={data.CHANGEPCT24HOUR <0}>
-                {numberFormat(data.CHANGEPCT24HOUR)}
+            <ChangePct zero={data.CHANGEPCT24HOUR ===0} red={data.CHANGEPCT24HOUR <0}>
+                {numberFormat(data.CHANGEPCT24HOUR)}%
             </ChangePct>
             <JustifyRight>
                 ${numberFormat(data.PRICE)}

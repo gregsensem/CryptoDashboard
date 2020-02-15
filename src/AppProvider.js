@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
+import moment from 'moment';
 
-const cc = require('cryptocompare')
+const cc = require('cryptocompare');
+const TIME_UNITES = 10;
  
  export const AppContext = React.createContext();
 
@@ -11,6 +13,8 @@ const cc = require('cryptocompare')
         this.state = { 
             page:'dashboard',
             favorites:['BTC','ETH','XMR','DOGE'],
+            currentFavorite:'',
+            coinList:{},
             MAX_FAVORITES:10,
             firstVisit:false,
             ...this.savedSettings(),
@@ -27,6 +31,7 @@ const cc = require('cryptocompare')
     componentDidMount =()=>{
         this.fetchConins();
         this.fetchPrices();
+        this.fetchHistorical();
     }
 
     fetchConins = async()=>{
@@ -39,6 +44,21 @@ const cc = require('cryptocompare')
         let prices = await this.prices();
         prices = prices.filter(price=>Object.keys(price).length);
         this.setState({prices});
+    }
+
+    fetchHistorical = async() =>{
+        if(this.state.firstVisit) return;
+        let results = await this.historical();
+        let historical = [
+            {
+                name:this.state.currentFavorite,
+                data:results.map((ticker, index) => [
+                    moment().subtract({months: TIME_UNITES-index}).valueOf(),
+                    ticker.USD
+                ])
+            }
+        ]
+        this.setState({historical});
     }
 
     prices = async() => {
@@ -54,6 +74,19 @@ const cc = require('cryptocompare')
         return returnData;
     }
 
+    historical = () =>{
+        let promises = [];
+        for (let units = TIME_UNITES; units>0; units--){
+            promises.push(
+                cc.priceHistorical(
+                    this.state.currentFavorite,
+                    ['USD'], 
+                    moment().subtract({months: units}).toDate()
+                )
+            )
+        }
+        return Promise.all(promises);
+    }
     addCoin = key =>{
         let favorites = [...this.state.favorites];
         if(favorites.length<this.state.MAX_FAVORITES){
