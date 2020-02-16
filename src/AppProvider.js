@@ -15,7 +15,7 @@ const TIME_UNITES = 10;
             favorites:['BTC','ETH','XMR','DOGE'],
             currentFavorite:'',
             coinList:'',
-            MAX_FAVORITES:10,
+            MAX_FAVORITES:20,
             firstVisit:false,
             ...this.savedSettings(),
             setPage:this.setPage,
