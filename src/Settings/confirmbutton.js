@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import {AppContext} from '../AppProvider';
 import {fontSize1, greenBoxShadow, color3} from "../Shared/styles";
+import {NormalButton,DisabledButton} from '../Shared/Tile';
 
 const ConfirmButtonStyled = styled.div`
     margin:20px;
@@ -20,12 +21,19 @@ export const CenterDiv = styled.div`
 export default function(){
     return (
         <AppContext.Consumer>
-            {({confirmFavorites})=>
-                <CenterDiv>
-                    <ConfirmButtonStyled onClick={confirmFavorites}>
-                        ConfirmFavorites
-                    </ConfirmButtonStyled>
-                </CenterDiv>
+            {({confirmFavorites,favorites})=>{
+                let ButtonClass = NormalButton
+                if(favorites.length === 0){
+                    ButtonClass = DisabledButton
+                }
+                return <ButtonClass>
+                    <CenterDiv>
+                        <ConfirmButtonStyled onClick={confirmFavorites}>
+                            ConfirmFavorites
+                        </ConfirmButtonStyled>
+                    </CenterDiv>
+                </ButtonClass>
+            }
             }
         </AppContext.Consumer>
     )}

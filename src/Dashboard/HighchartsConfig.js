@@ -3,7 +3,9 @@ export default function(historical){
         title: {
             text: ''
         },
-    
+        xAxis:{
+            type:'datetime'
+        },
         yAxis: {
             title: {
                 text: 'Price'

@@ -14,7 +14,7 @@ const TIME_UNITES = 10;
             page:'dashboard',
             favorites:['BTC','ETH','XMR','DOGE'],
             currentFavorite:'',
-            coinList:{},
+            coinList:'',
             MAX_FAVORITES:10,
             firstVisit:false,
             ...this.savedSettings(),
@@ -29,12 +29,12 @@ const TIME_UNITES = 10;
     }
 
     componentDidMount =()=>{
-        this.fetchConins();
+        this.fetchCoins();
         this.fetchPrices();
         this.fetchHistorical();
     }
 
-    fetchConins = async()=>{
+    fetchCoins = async()=>{
         let coinList = (await cc.coinList()).Data;
         this.setState({coinList});
     } 
@@ -80,7 +80,7 @@ const TIME_UNITES = 10;
             promises.push(
                 cc.priceHistorical(
                     this.state.currentFavorite,
-                    ['USD'], 
+                    ['USD'],  
                     moment().subtract({months: units}).toDate()
                 )
             )
@@ -117,9 +117,12 @@ const TIME_UNITES = 10;
         this.setState({
             firstVisit:false, 
             page:'dashboard',
-            currentFavorite
+            currentFavorite,
+            prices:null,
+            historical:null
         },()=>{
             this.fetchPrices();
+            this.fetchHistorical();
         })
         localStorage.setItem('cryptoDash',JSON.stringify({
             favorites:this.state.favorites,
@@ -129,8 +132,9 @@ const TIME_UNITES = 10;
 
     setCurrentFavorite = (sym) =>{
         this.setState({
-            currentFavorite:sym
-        })
+            currentFavorite:sym,
+            historical:null
+        },this.fetchHistorical);
         localStorage.setItem('cryptoDash',JSON.stringify({
             ...JSON.parse(localStorage.getItem('cryptoDash')),
             currentFavorite:sym

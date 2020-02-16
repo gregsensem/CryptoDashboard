@@ -24,3 +24,10 @@ export const DisabledTile = styled(Tile)`
     pointer-events:none;
     opacity:0.5;
 `
+export const NormalButton = styled.div`
+
+`
+export const DisabledButton = styled(Tile)`
+    pointer-events:none;
+    opacity:0.5;
+`

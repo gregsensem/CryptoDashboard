@@ -12,7 +12,7 @@ export default function(){
         <AppContext.Consumer>
             {({currentFavorite,coinList})=>
                 <Tile>
-                    {/* <SportlightName>{coinList[currentFavorite].CoinName}</SportlightName> */}
+                    <SportlightName>{coinList[currentFavorite].CoinName}</SportlightName>
                     <CoinImage spotlight coin={coinList[currentFavorite]} />  
                 </Tile>
             }
